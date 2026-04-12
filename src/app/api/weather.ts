@@ -50,7 +50,7 @@ export async function getForecastWeather(
   const apiPath = `${WEATHER_API_BASE_URL}${WEATHER_API_ROUTES.forecast}?key=${apiKey}&q=${queryLocation}&days=${days}&lang=${DEFAULT_LANG}`
   const response = await fetch(apiPath, {
     // Next 서버 fetch 캐시 (10분)
-    next: { revalidate: 600 },
+    next: { revalidate: 60 },
   })
 
   if (!response.ok) {
