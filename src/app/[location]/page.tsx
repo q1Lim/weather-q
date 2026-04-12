@@ -14,7 +14,7 @@ export default async function Detail({ params }: Props) {
   const forecastWeatherData = await getForecastWeather(location)
 
   return (
-    <>
+    <main>
       <h1>{currentWeatherData.location.name}의 날씨 예보</h1>
       <p>기준 시각 : {currentWeatherData.location.localtime}</p>
       <section>
@@ -32,14 +32,14 @@ export default async function Detail({ params }: Props) {
           <section key={day.date}>
             <h3>{day.date}</h3>
             <p>평균 기온: {day.day.avgtemp_c}°C</p>
-            <p>최고: {day.day.maxtemp_c}</p>
-            <p>최저: {day.day.mintemp_c}</p>
+            <p>최고: {day.day.maxtemp_c}°C</p>
+            <p>최저: {day.day.mintemp_c}°C</p>
             <p>상태: {day.day.condition.text}</p>
             <img src={`https:${day.day.condition.icon}`} alt={day.day.condition.text} />
           </section>
         ))}
       </section>
       <Button />
-    </>
+    </main>
   )
 }
