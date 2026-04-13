@@ -41,7 +41,11 @@ export interface Location {
 }
 
 export interface Current {
+  last_updated: string
   temp_c: number
+  feelslike_c: number
+  humidity: number
+  wind_kph: number
   condition: Condition
 }
 
