@@ -11,5 +11,5 @@ export default function Loading() {
         <p>3일 예보 정보를 준비하고 있습니다.</p>
       </section>
     </main>
-  )
+  );
 }

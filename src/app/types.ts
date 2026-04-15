@@ -1,56 +1,56 @@
 export interface CurrentWeatherResponse {
-  location: Location
-  current: Current
+  location: Location;
+  current: Current;
 }
 
 export interface ForecastWeatherResponse {
-  location: Location
-  current: Current
-  forecast: Forecast
+  location: Location;
+  current: Current;
+  forecast: Forecast;
 }
 
 export interface Forecast {
-  forecastday: ForecastDay[]
+  forecastday: ForecastDay[];
 }
 
 export interface ForecastDay {
-  date: string
-  day: ForecastDayInfo
-  hour: ForecastHour[]
+  date: string;
+  day: ForecastDayInfo;
+  hour: ForecastHour[];
 }
 
 export interface ForecastDayInfo {
-  maxtemp_c: number
-  mintemp_c: number
-  avgtemp_c: number
-  condition: Condition
+  maxtemp_c: number;
+  mintemp_c: number;
+  avgtemp_c: number;
+  condition: Condition;
 }
 
 export interface ForecastHour {
-  time: string
-  temp_c: number
-  condition: Condition
-  chance_of_rain: number
+  time: string;
+  temp_c: number;
+  condition: Condition;
+  chance_of_rain: number;
 }
 
 export interface Location {
-  name: string
-  region: string
-  country: string
-  localtime: string
+  name: string;
+  region: string;
+  country: string;
+  localtime: string;
 }
 
 export interface Current {
-  last_updated: string
-  temp_c: number
-  feelslike_c: number
-  humidity: number
-  wind_kph: number
-  condition: Condition
+  last_updated: string;
+  temp_c: number;
+  feelslike_c: number;
+  humidity: number;
+  wind_kph: number;
+  condition: Condition;
 }
 
 export interface Condition {
-  text: string
-  icon: string
-  code: number
+  text: string;
+  icon: string;
+  code: number;
 }

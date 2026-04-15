@@ -1,24 +1,24 @@
-import Button from '@/app/[location]/Button'
-import { getCurrentWeather, getForecastWeather } from '@/app/api/weather'
+import Button from "@/app/[location]/Button";
+import { getCurrentWeather, getForecastWeather } from "@/app/api/weather";
 
 type Props = {
   params: Promise<{
-    location: string
-  }>
-}
+    location: string;
+  }>;
+};
 
 export default async function Detail({ params }: Props) {
-  const { location } = await params
+  const { location } = await params;
 
-  const currentWeatherData = await getCurrentWeather(location)
-  const forecastWeatherData = await getForecastWeather(location)
+  const currentWeatherData = await getCurrentWeather(location);
+  const forecastWeatherData = await getForecastWeather(location);
 
   // 3시간별로 오늘의 예보 보여주기
-  const todayForecast = forecastWeatherData.forecast.forecastday[0]
-  const now = new Date(currentWeatherData.location.localtime).getTime()
+  const todayForecast = forecastWeatherData.forecast.forecastday[0];
+  const now = new Date(currentWeatherData.location.localtime).getTime();
   const threeHourForecast = todayForecast.hour
     .filter((hour) => new Date(hour.time).getTime() >= now)
-    .filter((_, index) => index % 3 === 0)
+    .filter((_, index) => index % 3 === 0);
 
   return (
     <main>
@@ -64,5 +64,5 @@ export default async function Detail({ params }: Props) {
       </section>
       <Button />
     </main>
-  )
+  );
 }

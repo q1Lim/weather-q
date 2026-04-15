@@ -1,11 +1,11 @@
-'use client'
+"use client";
 
-import Button from '@/app/[location]/Button'
+import Button from "@/app/[location]/Button";
 
 type Props = {
-  error: Error
-  reset: () => void
-}
+  error: Error;
+  reset: () => void;
+};
 
 export default function Error({ error, reset }: Props) {
   return (
@@ -15,5 +15,5 @@ export default function Error({ error, reset }: Props) {
       <button onClick={reset}>다시 시도</button>
       <Button />
     </main>
-  )
+  );
 }
