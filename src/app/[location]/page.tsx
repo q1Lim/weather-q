@@ -1,5 +1,6 @@
 import HomeButton from "@/app/[location]/HomeButton";
 import { getCurrentWeather, getForecastWeather } from "@/app/api/weather";
+import Image from "next/image";
 
 type Props = {
   params: Promise<{
@@ -46,10 +47,12 @@ export default async function Detail({ params }: Props) {
               </p>
             </div>
 
-            <img
+            <Image
               className="h-24 w-24"
               src={`https:${currentWeatherData.current.condition.icon}`}
               alt={currentWeatherData.current.condition.text}
+              width={96}
+              height={96}
             />
           </div>
 
@@ -95,10 +98,12 @@ export default async function Detail({ params }: Props) {
                 className="min-w-36 rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-sm"
               >
                 <h3 className="text-sm font-semibold text-slate-500">{hour.time.split(" ")[1]}</h3>
-                <img
+                <Image
                   className="mx-auto my-3 h-12 w-12"
                   src={`https:${hour.condition.icon}`}
                   alt={hour.condition.text}
+                  width={48}
+                  height={48}
                 />
                 <p className="text-2xl font-bold text-slate-950">{hour.temp_c}°C</p>
                 <p className="mt-1 text-xs text-slate-500">{hour.condition.text}</p>
@@ -127,10 +132,12 @@ export default async function Detail({ params }: Props) {
                     <p className="mt-1 text-sm text-slate-500">{day.day.condition.text}</p>
                   </div>
 
-                  <img
+                  <Image
                     className="h-14 w-14"
                     src={`https:${day.day.condition.icon}`}
                     alt={day.day.condition.text}
+                    width={56}
+                    height={56}
                   />
                 </div>
 
