@@ -1,4 +1,4 @@
-import Button from "@/app/[location]/Button";
+import HomeButton from "@/app/[location]/HomeButton";
 import { getCurrentWeather, getForecastWeather } from "@/app/api/weather";
 
 type Props = {
@@ -152,7 +152,9 @@ export default async function Detail({ params }: Props) {
             ))}
           </div>
         </section>
-        <Button />
+        <div className="mt-8">
+          <HomeButton />
+        </div>
       </div>
     </main>
   );
