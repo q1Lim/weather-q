@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CurrentLocationWeather from "@/app/components/CurrentLocationWeather";
 
 const locations = [
   { name: "서울", path: "Seoul" },
@@ -21,6 +22,7 @@ export default function Home() {
         <p className="my-4 max-w-2xl text-base leading-7 text-slate-600">
           도시를 선택하면 현재 날씨, 오늘의 시간별 예보, 3일 예보를 확인할 수 있습니다.
         </p>
+        <CurrentLocationWeather />
         <ul className="grid gap-4 sm:grid-cols-3">
           {locations.map((location) => (
             <li key={location.path}>
