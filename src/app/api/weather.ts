@@ -1,4 +1,5 @@
 import { CurrentWeatherResponse, ForecastWeatherResponse } from "@/app/types";
+import { WEATHER_MESSAGE } from "@/lib/messages/weather";
 import {
   WEATHER_API_BASE_URL,
   WEATHER_API_ROUTES,
@@ -9,7 +10,7 @@ import {
 function getApiKey(): string {
   const apiKey = process.env.WEATHER_API_KEY;
   if (!apiKey) {
-    throw new Error("WEATHER_API_KEY가 설정되어 있지 않습니다.");
+    throw new Error(WEATHER_MESSAGE.emptyLocation);
   }
 
   return apiKey;
@@ -18,7 +19,7 @@ function getApiKey(): string {
 function normalizeLocation(location: string): string {
   const trimmed = location.trim();
   if (!trimmed) {
-    throw new Error("도시명이 비어있습니다.");
+    throw new Error(WEATHER_MESSAGE.emptyLocation);
   }
 
   return encodeURIComponent(trimmed);
@@ -35,7 +36,7 @@ export async function getCurrentWeather(location: string): Promise<CurrentWeathe
   });
 
   if (!response.ok) {
-    throw new Error(`날씨 정보를 가져올 수 없습니다. (status: ${response.status})`);
+    throw new Error(WEATHER_MESSAGE.currentFetchFailed(response.status));
   }
   return response.json();
 }
@@ -54,7 +55,7 @@ export async function getForecastWeather(
   });
 
   if (!response.ok) {
-    throw new Error(`예보 정보를 가져올 수 없습니다. (status: ${response.status})`);
+    throw new Error(WEATHER_MESSAGE.forecastFetchFailed(response.status));
   }
 
   return response.json();

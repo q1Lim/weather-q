@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentWeather } from "@/app/api/weather";
+import { GEOLOCATION_MESSAGE } from "@/lib/messages/geolocation";
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -7,7 +8,7 @@ export async function GET(request: NextRequest) {
   const lon = searchParams.get("lon");
 
   if (!lat || !lon) {
-    return NextResponse.json({ message: "위도와 경도 정보가 필요합니다." }, { status: 400 });
+    return NextResponse.json(GEOLOCATION_MESSAGE.emptyLatLon(400));
   }
 
   try {
@@ -16,8 +17,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       {
-        message:
-          error instanceof Error ? error.message : "현재 위치의 날씨 정보를 불러오지 못했습니다.",
+        message: error instanceof Error ? error.message : GEOLOCATION_MESSAGE.locationFetchFailed,
       },
       { status: 500 }
     );

@@ -1,8 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CurrentWeatherResponse } from "../types";
 import Image from "next/image";
+import { CurrentWeatherResponse } from "../types";
+import { COMMON_MESSAGE } from "@/lib/messages/common";
+import { GEOLOCATION_MESSAGE } from "@/lib/messages/geolocation";
+import { WEATHER_MESSAGE } from "@/lib/messages/weather";
 
 export default function CurrentLocationWeather() {
   const [status, setStatus] = useState<"idle" | "loading" | "error" | "success">("idle");
@@ -12,7 +15,7 @@ export default function CurrentLocationWeather() {
   useEffect(() => {
     if (!navigator.geolocation) {
       setStatus("error");
-      setError("이 브라우저에서는 위치 정보를 지원하지 않습니다.");
+      setError(GEOLOCATION_MESSAGE.unsupported);
       return;
     }
 
@@ -27,7 +30,7 @@ export default function CurrentLocationWeather() {
           );
 
           if (!response.ok) {
-            throw new Error("현재 위치의 날씨를 불러오지 못했습니다.");
+            throw new Error(WEATHER_MESSAGE.currentLocationFetchFailed);
           }
 
           const data: CurrentWeatherResponse = await response.json();
@@ -36,15 +39,13 @@ export default function CurrentLocationWeather() {
         } catch (error) {
           setStatus("error");
           setError(
-            error instanceof Error ? error.message : "현재 위치의 날씨를 불러오지 못했습니다."
+            error instanceof Error ? error.message : WEATHER_MESSAGE.currentLocationFetchFailed
           );
         }
       },
       () => {
         setStatus("error");
-        setError(
-          "위치 권한이 거부되었습니다. 브라우저에서 위치 권한을 허용하면 현재 위치의 날씨를 확인할 수 있습니다."
-        );
+        setError(GEOLOCATION_MESSAGE.permissionDenied);
       }
     );
   }, []);
@@ -56,12 +57,13 @@ export default function CurrentLocationWeather() {
           Current Location
         </p>
         <h2 className="mt-3 text-2xl font-bold tracking-tight">
-          현재 위치 날씨를 불러오는 중입니다.
+          {WEATHER_MESSAGE.currentLocationLoading}
         </h2>
-        <p className="mt-2 text-sm text-slate-500">잠시만 기다려주세요.</p>
+        <p className="mt-2 text-sm text-slate-500">{COMMON_MESSAGE.waitingDescription}</p>
       </section>
     );
   }
+
   if (status === "error") {
     return (
       <section className="mb-10 rounded-3xl border border-red-200 bg-red-50 p-6 shadow-sm">
@@ -69,7 +71,7 @@ export default function CurrentLocationWeather() {
           Location Weather
         </p>
         <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-950">
-          현재 위치의 날씨를 불러오지 못했습니다.
+          {WEATHER_MESSAGE.currentLocationFetchFailed}
         </h2>
         <p className="mt-2 text-sm text-slate-600">{error}</p>
       </section>
@@ -121,5 +123,6 @@ export default function CurrentLocationWeather() {
       </section>
     );
   }
+
   return null;
 }
