@@ -5,4 +5,5 @@ export const GEOLOCATION_MESSAGE = {
   positionUnavailable: "현재 위치를 확인할 수 없습니다.",
   timeout: "위치 정보를 가져오는 시간이 초과되었습니다.",
   unknown: "현재 위치 정보를 불러오지 못했습니다.",
+  emptyLatLon: "위도와 경도가 필요합니다.",
 } as const;

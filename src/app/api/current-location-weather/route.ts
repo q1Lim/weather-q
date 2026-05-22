@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentWeather } from "@/app/api/weather";
 import { GEOLOCATION_MESSAGE } from "@/lib/messages/geolocation";
+import { WEATHER_MESSAGE } from "@/lib/messages/weather";
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -8,7 +9,7 @@ export async function GET(request: NextRequest) {
   const lon = searchParams.get("lon");
 
   if (!lat || !lon) {
-    return NextResponse.json(GEOLOCATION_MESSAGE.emptyLatLon(400));
+    return NextResponse.json({ message: GEOLOCATION_MESSAGE.emptyLatLon }, { status: 400 });
   }
 
   try {
@@ -17,7 +18,8 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       {
-        message: error instanceof Error ? error.message : GEOLOCATION_MESSAGE.locationFetchFailed,
+        message:
+          error instanceof Error ? error.message : WEATHER_MESSAGE.currentLocationFetchFailed,
       },
       { status: 500 }
     );

@@ -34,6 +34,11 @@ export default function CurrentLocationWeather() {
           }
 
           const data: CurrentWeatherResponse = await response.json();
+
+          if (!data.current?.condition || !data.location) {
+            throw new Error(WEATHER_MESSAGE.currentLocationFetchFailed);
+          }
+
           setWeather(data);
           setStatus("success");
         } catch (error) {

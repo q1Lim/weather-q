@@ -1,4 +1,8 @@
-import { CurrentWeatherResponse, ForecastWeatherResponse } from "@/app/types";
+import {
+  CurrentWeatherResponse,
+  ForecastWeatherResponse,
+  LocationSearchResponse,
+} from "@/app/types";
 import { WEATHER_MESSAGE } from "@/lib/messages/weather";
 import {
   WEATHER_API_BASE_URL,
@@ -56,6 +60,22 @@ export async function getForecastWeather(
 
   if (!response.ok) {
     throw new Error(WEATHER_MESSAGE.forecastFetchFailed(response.status));
+  }
+
+  return response.json();
+}
+
+export async function getLocationSearchResults(query: string): Promise<LocationSearchResponse> {
+  const apiKey = getApiKey();
+  const queryLocation = normalizeLocation(query);
+
+  const apiPath = `${WEATHER_API_BASE_URL}${WEATHER_API_ROUTES.search}?key=${apiKey}&q=${queryLocation}`;
+  const response = await fetch(apiPath, {
+    next: { revalidate: 600 },
+  });
+
+  if (!response.ok) {
+    throw new Error(WEATHER_MESSAGE.locationSearchFetchFailed(response.status));
   }
 
   return response.json();
