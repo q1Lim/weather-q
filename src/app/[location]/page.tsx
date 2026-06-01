@@ -1,12 +1,23 @@
 import HomeButton from "@/app/[location]/HomeButton";
 import { getCurrentWeather, getForecastWeather } from "@/app/api/weather";
 import Image from "next/image";
+import type { Metadata } from "next";
 
 type Props = {
   params: Promise<{
     location: string;
   }>;
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { location } = await params;
+  const decodedLocation = decodeURIComponent(location);
+
+  return {
+    title: `${decodedLocation} 날씨 예보 | Weather Q`,
+    description: `${decodedLocation}의 현재 날씨, 시간별 예보, 3일 예보를 확인하세요.`,
+  };
+}
 
 export default async function Detail({ params }: Props) {
   const { location } = await params;
