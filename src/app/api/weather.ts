@@ -1,9 +1,6 @@
-import {
-  CurrentWeatherResponse,
-  ForecastWeatherResponse,
-  LocationSearchResponse,
-} from "@/app/types";
+import { CurrentWeatherResponse, ForecastWeatherResponse } from "@/app/types";
 import { WEATHER_MESSAGE } from "@/lib/messages/weather";
+import { normalizeQueryParam } from "@/lib/util/common";
 import {
   WEATHER_API_BASE_URL,
   WEATHER_API_ROUTES,
@@ -20,18 +17,9 @@ function getApiKey(): string {
   return apiKey;
 }
 
-function normalizeLocation(location: string): string {
-  const trimmed = location.trim();
-  if (!trimmed) {
-    throw new Error(WEATHER_MESSAGE.emptyLocation);
-  }
-
-  return encodeURIComponent(trimmed);
-}
-
 export async function getCurrentWeather(location: string): Promise<CurrentWeatherResponse> {
   const apiKey = getApiKey();
-  const queryLocation = normalizeLocation(location);
+  const queryLocation = normalizeQueryParam(location, WEATHER_MESSAGE.emptyLocation);
 
   const apiPath = `${WEATHER_API_BASE_URL}${WEATHER_API_ROUTES.current}?key=${apiKey}&q=${queryLocation}&lang=${DEFAULT_LANG}`;
   const response = await fetch(apiPath, {
@@ -50,7 +38,7 @@ export async function getForecastWeather(
   days: number = DEFAULT_FORECAST_DAYS
 ): Promise<ForecastWeatherResponse> {
   const apiKey = getApiKey();
-  const queryLocation = normalizeLocation(location);
+  const queryLocation = normalizeQueryParam(location, WEATHER_MESSAGE.emptyLocation);
 
   const apiPath = `${WEATHER_API_BASE_URL}${WEATHER_API_ROUTES.forecast}?key=${apiKey}&q=${queryLocation}&days=${days}&lang=${DEFAULT_LANG}`;
   const response = await fetch(apiPath, {
@@ -60,22 +48,6 @@ export async function getForecastWeather(
 
   if (!response.ok) {
     throw new Error(WEATHER_MESSAGE.forecastFetchFailed(response.status));
-  }
-
-  return response.json();
-}
-
-export async function getLocationSearchResults(query: string): Promise<LocationSearchResponse> {
-  const apiKey = getApiKey();
-  const queryLocation = normalizeLocation(query);
-
-  const apiPath = `${WEATHER_API_BASE_URL}${WEATHER_API_ROUTES.search}?key=${apiKey}&q=${queryLocation}`;
-  const response = await fetch(apiPath, {
-    next: { revalidate: 600 },
-  });
-
-  if (!response.ok) {
-    throw new Error(WEATHER_MESSAGE.locationSearchFetchFailed(response.status));
   }
 
   return response.json();

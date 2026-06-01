@@ -1,7 +1,32 @@
 import { SavedLocation } from "@/app/types";
 
 export const DEFAULT_LOCATIONS: SavedLocation[] = [
-  { name: "서울", region: "Seoul", country: "South Korea", query: "Seoul" },
-  { name: "런던", region: "England", country: "United Kingdom", query: "London" },
-  { name: "파리", region: "Paris", country: "France", query: "Paris" },
+  {
+    nameKo: "서울",
+    nameEn: "Seoul",
+    countryKo: "대한민국",
+    countryEn: "South Korea",
+    query: "Seoul",
+  },
+  {
+    nameKo: "런던",
+    nameEn: "London",
+    countryKo: "영국",
+    countryEn: "United Kingdom",
+    query: "London",
+  },
+  {
+    nameKo: "파리",
+    nameEn: "Paris",
+    countryKo: "프랑스",
+    countryEn: "France",
+    query: "Paris",
+  },
 ];
+
+export const NOMINATIM_API_BASE_URL = "https://nominatim.openstreetmap.org";
+
+export const NOMINATIM_API_ROUTES = {
+  search: "/search",
+  reverse: "/reverse",
+} as const;

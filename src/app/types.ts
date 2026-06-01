@@ -56,20 +56,37 @@ export interface Condition {
 }
 
 export interface SavedLocation {
-  name: string;
-  region: string;
-  country: string;
+  nameKo: string;
+  nameEn: string;
+  countryKo: string;
+  countryEn: string;
   query: string;
 }
 
 export interface LocationSearchResult {
-  id: number;
-  name: string;
-  region: string;
-  country: string;
+  id: string;
+  nameKo: string;
+  nameEn: string;
+  countryKo: string;
+  countryEn: string;
   lat: number;
   lon: number;
-  url: string;
+  query: string;
 }
 
 export type LocationSearchResponse = LocationSearchResult[];
+
+export interface NominatimSearchResult {
+  place_id: number;
+  name?: string;
+  display_name: string;
+  lat: string;
+  lon: string;
+  address?: {
+    city?: string;
+    town?: string;
+    village?: string;
+    state?: string;
+    country?: string;
+  };
+}

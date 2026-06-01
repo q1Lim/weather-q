@@ -56,10 +56,11 @@ export default function LocationSearch() {
 
   const handleAddLocation = (location: LocationSearchResult) => {
     const added = addLocation({
-      name: location.name,
-      region: location.region,
-      country: location.country,
-      query: location.name,
+      nameKo: location.nameKo,
+      nameEn: location.nameEn,
+      countryKo: location.countryKo,
+      countryEn: location.countryEn,
+      query: location.query,
     });
 
     setMessage(added ? LOCATION_MESSAGE.addSuccess : LOCATION_MESSAGE.alreadyAdded);
@@ -73,7 +74,7 @@ export default function LocationSearch() {
           type="search"
           value={query}
           onChange={handleQueryChange}
-          placeholder="예: London, Seoul, Tokyo"
+          placeholder="예: 오사카, 부산, 리스본"
           className="min-h-12 flex-1 rounded-2xl border border-slate-200 bg-slate-50 px-4 text-base text-slate-950 transition outline-none placeholder:text-slate-400 focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100"
         />
         <button
@@ -95,9 +96,12 @@ export default function LocationSearch() {
               className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:flex-row sm:items-center sm:justify-between"
             >
               <div>
-                <p className="font-semibold text-slate-950">{location.name}</p>
+                <p className="font-semibold text-slate-950">{location.nameKo}</p>
                 <p className="text-sm text-slate-500">
-                  {location.region}, {location.country}
+                  {location.nameKo}, {location.countryKo}
+                </p>
+                <p className="text-sm text-slate-500">
+                  {location.nameEn}, {location.countryEn}
                 </p>
               </div>
 

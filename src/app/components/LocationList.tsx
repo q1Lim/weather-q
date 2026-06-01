@@ -49,14 +49,14 @@ export default function LocationList() {
                   event.stopPropagation();
                   removeLocation(location.query);
                 }}
-                aria-label={`${location.name} 삭제`}
+                aria-label={`${location.nameKo} 삭제`}
                 className="absolute top-3 right-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-base font-bold text-slate-500 transition hover:bg-red-50 hover:text-red-600"
               >
                 ×
               </button>
             ) : null}
 
-            <span className="relative">{location.name}</span>
+            <span className="relative">{location.nameKo}</span>
           </Link>
         </li>
       ))}
