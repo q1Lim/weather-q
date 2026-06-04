@@ -1,4 +1,5 @@
 import { CurrentWeatherResponse, ForecastWeatherResponse } from "@/app/types";
+import { LOCATION_ERROR_CODE } from "@/lib/messages/location";
 import { WEATHER_MESSAGE } from "@/lib/messages/weather";
 import { normalizeQueryParam } from "@/lib/util/common";
 import {
@@ -27,6 +28,10 @@ export async function getCurrentWeather(location: string): Promise<CurrentWeathe
     next: { revalidate: 600 },
   });
 
+  if (response.status === 400 || response.status === 404) {
+    throw new Error(LOCATION_ERROR_CODE.notFound);
+  }
+
   if (!response.ok) {
     throw new Error(WEATHER_MESSAGE.currentFetchFailed(response.status));
   }
@@ -45,6 +50,10 @@ export async function getForecastWeather(
     // Next 서버 fetch 캐시 (10분)
     next: { revalidate: 60 },
   });
+
+  if (response.status === 400 || response.status === 404) {
+    throw new Error(LOCATION_ERROR_CODE.notFound);
+  }
 
   if (!response.ok) {
     throw new Error(WEATHER_MESSAGE.forecastFetchFailed(response.status));

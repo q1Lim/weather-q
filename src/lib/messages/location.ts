@@ -4,3 +4,7 @@ export const LOCATION_MESSAGE = {
   addSuccess: "도시가 추가되었습니다.",
   alreadyAdded: "이미 추가된 도시입니다.",
 } as const;
+
+export const LOCATION_ERROR_CODE = {
+  notFound: "LOCATION_NOT_FOUND",
+} as const;
