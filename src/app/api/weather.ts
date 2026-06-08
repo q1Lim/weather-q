@@ -7,6 +7,7 @@ import {
   WEATHER_API_ROUTES,
   DEFAULT_LANG,
   DEFAULT_FORECAST_DAYS,
+  WEATHER_REVALIDATE_SECONDS,
 } from "@/lib/weather.constants";
 
 function getApiKey(): string {
@@ -24,8 +25,7 @@ export async function getCurrentWeather(location: string): Promise<CurrentWeathe
 
   const apiPath = `${WEATHER_API_BASE_URL}${WEATHER_API_ROUTES.current}?key=${apiKey}&q=${queryLocation}&lang=${DEFAULT_LANG}`;
   const response = await fetch(apiPath, {
-    // Next 서버 fetch 캐시 (10분)
-    next: { revalidate: 600 },
+    next: { revalidate: WEATHER_REVALIDATE_SECONDS.current },
   });
 
   if (response.status === 400 || response.status === 404) {
@@ -47,8 +47,7 @@ export async function getForecastWeather(
 
   const apiPath = `${WEATHER_API_BASE_URL}${WEATHER_API_ROUTES.forecast}?key=${apiKey}&q=${queryLocation}&days=${days}&lang=${DEFAULT_LANG}`;
   const response = await fetch(apiPath, {
-    // Next 서버 fetch 캐시 (10분)
-    next: { revalidate: 60 },
+    next: { revalidate: WEATHER_REVALIDATE_SECONDS.forecast },
   });
 
   if (response.status === 400 || response.status === 404) {

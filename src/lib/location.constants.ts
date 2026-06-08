@@ -30,3 +30,10 @@ export const NOMINATIM_API_ROUTES = {
   search: "/search",
   reverse: "/reverse",
 } as const;
+
+export const LOCATION_REVALIDATE_SECONDS = {
+  search: 3600,
+  reverse: 3600,
+} as const;
+
+export const LOCATION_SEARCH_LIMIT = 10;

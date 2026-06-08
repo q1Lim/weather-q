@@ -1,6 +1,11 @@
 import { LOCATION_MESSAGE } from "@/lib/messages/location";
 import { LocationSearchResponse, NominatimSearchResult } from "../types";
-import { NOMINATIM_API_BASE_URL, NOMINATIM_API_ROUTES } from "@/lib/location.constants";
+import {
+  LOCATION_REVALIDATE_SECONDS,
+  LOCATION_SEARCH_LIMIT,
+  NOMINATIM_API_BASE_URL,
+  NOMINATIM_API_ROUTES,
+} from "@/lib/location.constants";
 import { fetchWithTimeout, normalizeQueryParam } from "@/lib/util/common";
 
 function getLocationName(location: NominatimSearchResult): string {
@@ -24,7 +29,7 @@ async function getEnglishLocationByCoordinates(
         headers: {
           "User-Agent": "weather-q/0.1.0",
         },
-        next: { revalidate: 600 },
+        next: { revalidate: LOCATION_REVALIDATE_SECONDS.reverse },
       }
     );
 
@@ -42,13 +47,12 @@ export async function getLocationSearchResults(query: string): Promise<LocationS
   const searchQuery = normalizeQueryParam(query, LOCATION_MESSAGE.emptySearchQuery);
 
   const response = await fetch(
-    `${NOMINATIM_API_BASE_URL}${NOMINATIM_API_ROUTES.search}?q=${searchQuery}&format=json&limit=10&addressdetails=1&accept-language=ko`,
-
+    `${NOMINATIM_API_BASE_URL}${NOMINATIM_API_ROUTES.search}?q=${searchQuery}&format=json&limit=${LOCATION_SEARCH_LIMIT}&addressdetails=1&accept-language=ko`,
     {
       headers: {
         "User-Agent": "weather-q/0.1.0",
       },
-      next: { revalidate: 600 },
+      next: { revalidate: LOCATION_REVALIDATE_SECONDS.search },
     }
   );
 

@@ -2,6 +2,8 @@ import HomeButton from "@/app/[location]/HomeButton";
 import { getCurrentWeather, getForecastWeather } from "@/app/api/weather";
 import Image from "next/image";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { LOCATION_ERROR_CODE } from "@/lib/messages/location";
 
 type Props = {
   params: Promise<{
@@ -12,18 +14,44 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { location } = await params;
   const decodedLocation = decodeURIComponent(location);
+  const title = `${decodedLocation} 날씨 예보`;
+  const description = `${decodedLocation}의 현재 날씨, 시간별 예보, 3일 예보를 확인하세요.`;
 
   return {
-    title: `${decodedLocation} 날씨 예보 | Weather Q`,
-    description: `${decodedLocation}의 현재 날씨, 시간별 예보, 3일 예보를 확인하세요.`,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `/${location}`,
+      siteName: "Weather Q",
+      locale: "ko_KR",
+      type: "website",
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
+    },
   };
 }
 
 export default async function Detail({ params }: Props) {
   const { location } = await params;
 
-  const currentWeatherData = await getCurrentWeather(location);
-  const forecastWeatherData = await getForecastWeather(location);
+  let currentWeatherData;
+  let forecastWeatherData;
+
+  try {
+    currentWeatherData = await getCurrentWeather(location);
+    forecastWeatherData = await getForecastWeather(location);
+  } catch (error) {
+    if (error instanceof Error && error.message === LOCATION_ERROR_CODE.notFound) {
+      notFound();
+    }
+
+    throw error;
+  }
 
   // 3시간별로 오늘의 예보 보여주기
   const todayForecast = forecastWeatherData.forecast.forecastday[0];

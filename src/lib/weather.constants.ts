@@ -5,3 +5,8 @@ export const WEATHER_API_ROUTES = {
 };
 export const DEFAULT_LANG = "ko";
 export const DEFAULT_FORECAST_DAYS = 3;
+
+export const WEATHER_REVALIDATE_SECONDS = {
+  current: 300,
+  forecast: 600,
+} as const;
