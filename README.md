@@ -1,6 +1,6 @@
 # Weather Q
 
-도시별 현재 날씨와 예보를 확인하고, 원하는 도시를 저장할 수 있는 Next.js 기반 날씨 서비스입니다. 
+도시별 현재 날씨와 예보를 확인하고, 원하는 도시를 저장할 수 있는 Next.js 기반 날씨 서비스입니다.
 ([배포 페이지](https://weather-q-mauve.vercel.app/))
 
 ## 주요 기능
@@ -45,10 +45,12 @@ WeatherAPI 호출은 `src/app/api/weather.ts`에서 담당합니다.
 ```
 
 ### Nominatim
+
 도시 검색은 Nominatim API를 사용합니다.
+
 - 도시 검색: /search
 - 좌표 기반 역조회: /reverse
-nominatim 호출은 src/app/api/location.ts에서 담당합니다.
+  nominatim 호출은 src/app/api/location.ts에서 담당합니다.
 
 ```txt
 LocationSearch 컴포넌트
@@ -102,7 +104,9 @@ src/lib
 ```
 
 ## 캐싱 전략
+
 Next.js 서버 `fetch`의 `revalidate` 옵션을 사용해 외부 API 응답을 캐싱합니다.
+
 ```ts
 export const WEATHER_REVALIDATE_SECONDS = {
   current: 300,
@@ -114,19 +118,24 @@ export const LOCATION_REVALIDATE_SECONDS = {
   reverse: 3600,
 } as const;
 ```
+
 - 현재 날씨는 자주 바뀌므로 짧게 캐싱합니다.
 - 예보 데이터는 현재 날씨보다 덜 자주 바뀌므로 조금 더 길게 캐싱합니다.
 - 도시 검색 결과는 상대적으로 변동이 적어 더 길게 캐싱합니다.
 
 ## Next.js 적용 포인트
+
 ### App Router
+
 `src/app` 기반의 App Router 구조를 사용했습니다.
+
 - `/` 홈페이지
 - `/[location]` 도시 상세 페이지
 - `/api/location-search` 도시 검색 API
 - `/api/current-location-weather` 현재 위치 날씨 API
 
 ### Server Component와 Client Component 분리
+
 도시 상세 페이지는 서버 컴포넌트에서 날씨 데이터를 가져오고, 검색/저장 기능은 클라이언트 컴포넌트에서 처리합니다.
 
 ```txt
@@ -140,7 +149,9 @@ Client Component
 ```
 
 ### Metadata 최적화
+
 `generateMetadata`를 사용해 도시 상세 페이지별 metadata를 동적으로 생성합니다.
+
 ```txt
 /Seoul
 -> Seoul 날씨 예보 | Weather Q
@@ -148,15 +159,20 @@ Client Component
 /London
 -> London 날씨 예보 | Weather Q
 ```
+
 Open Graph와 Twitter metadata도 함께 설정해 링크 공유 시 페이지 정보가 전달되도록 했습니다.
 
 ### SEO 기본 설정
+
 Next.js metadata file convention을 사용해 sitemap과 robots를 설정했습니다.
+
 - `src/app/sitemap.ts`
 - `src/app/robots.ts`
 
 ### Not Found 처리
+
 존재하지 않는 도시 요청과 일반 API 오류를 구분했습니다.
+
 ```txt
 WeatherAPI 400/404
 -> notFound()
@@ -167,7 +183,9 @@ WeatherAPI 400/404
 ```
 
 ## 상태 관리와 저장소
+
 사용자가 추가한 도시는 Zustand store로 관리하고, localStorage에 저장합니다.
+
 ```txt
 Zustand
 -> 현재 화면의 저장 도시 상태 관리
@@ -175,6 +193,7 @@ Zustand
 localStorage
 -> 브라우저 새로고침 후에도 저장 도시 유지
 ```
+
 저장 데이터는 사용자 계정 기반 데이터가 아니라 “현재 브라우저에서 보고 싶은 도시 목록”에 가까워 localStorage를 선택했습니다.
 
 ## 실행 방법
@@ -184,15 +203,15 @@ localStorage
 ```bash
 npm install
 ```
+
 ### 개발 서버 실행
+
 ```bash
 npm run dev
 ```
 
 ### 개발 서버 실행
+
 ```txt
 http://localhost:3000
 ```
-
-
-
